@@ -1,17 +1,18 @@
 <?php
+require_once '../../config/config.php';  // Adjust path based on your structure
+
 class Database {
     private static $instance = null;
     private $conn;
-    
-    private $host = "localhost";
-    private $user = "root";  
-    private $pass = "";  
-    private $dbname = "club_website";  
 
     private function __construct() {
         try {
-            $this->conn = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->pass);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conn = new PDO(
+                "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, 
+                DB_USER, 
+                DB_PASS,
+                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+            );
         } catch (PDOException $e) {
             die("Database Connection Failed: " . $e->getMessage());
         }
